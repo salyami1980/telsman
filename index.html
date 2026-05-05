@@ -15,100 +15,103 @@
             font-family: 'Arial', sans-serif;
             text-align: center;
             direction: rtl;
-            background: #f5f5f5;
-            padding: 20px;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb4d);
             min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         .container {
-            max-width: 600px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 16px;
-            padding: 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            max-width: 500px;
+            width: 100%;
+            background: rgba(255,255,255,0.95);
+            border-radius: 24px;
+            padding: 30px 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
         }
         h1 {
-            color: #333;
+            color: #1a2a6c;
             font-size: 24px;
             margin-bottom: 20px;
         }
         input[type="text"] {
-            padding: 12px;
+            padding: 14px;
             width: 90%;
             margin-bottom: 15px;
             font-size: 18px;
             border: 2px solid #ddd;
-            border-radius: 8px;
+            border-radius: 12px;
             text-align: center;
+            font-family: inherit;
         }
         button {
-            padding: 10px 20px;
+            padding: 12px 24px;
             font-size: 16px;
             cursor: pointer;
-            background: #4CAF50;
+            background: #1a2a6c;
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 12px;
             margin: 5px;
+            transition: transform 0.2s;
+        }
+        button:hover {
+            transform: scale(1.02);
         }
         button:last-child {
-            background: #f44336;
+            background: #b21f1f;
         }
-        .result {
-            margin-top: 10px;
-            font-size: 16px;
-            padding: 8px;
-            background: #f9f9f9;
-            border-radius: 8px;
+        .result-card {
+            background: linear-gradient(135deg, #1a2a6c, #2a3a7c);
+            color: white;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 16px;
             text-align: center;
+        }
+        .result-card h3 {
+            font-size: 18px;
+            margin-bottom: 8px;
+            opacity: 0.9;
+        }
+        .result-card .value {
+            font-size: 22px;
+            font-weight: bold;
             word-wrap: break-word;
         }
-        .section {
-            margin-top: 20px;
-            border-top: 1px solid #eee;
-            padding-top: 15px;
+        .final-result {
+            background: linear-gradient(135deg, #fdbb4d, #ff9800);
+            color: #1a2a6c;
+        }
+        .final-result .value {
+            font-size: 20px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>حساب القيمة العددية للحروف</h1>
-        <input type="text" id="inputText" placeholder="أدخل الجملة هنا (حتى 40 حرف)">
+        <h1>🔢 حساب الجمل</h1>
+        <input type="text" id="inputText" placeholder="أدخل النص هنا...">
         <div>
-            <button onclick="calculate()">احسب جملتك</button>
-            <button onclick="reset()">إعادة الحساب</button>
+            <button onclick="calculate()">احسب</button>
+            <button onclick="reset()">مسح</button>
         </div>
-        <div id="result" class="result"></div>
-        <div id="letterResult" class="result"></div>
-        <div id="phoneticResult" class="result"></div>
-        <div id="phoneticValueResult" class="result"></div>
-        <div id="phoneticLetterResult" class="result"></div>
-        <div id="phoneticPhoneticResult" class="result"></div>
-        <div id="phoneticValueForPhoneticResult" class="result"></div>
-        <div id="letterValueForPhoneticResult" class="result"></div>
-        <div id="phoneticPhoneticValueResult" class="result"></div>
-        <div id="finalPhoneticValue" class="result"></div>
-        <div id="finalPhoneticLetterValue" class="result"></div>
-        <div id="finalPhoneticPhoneticValue" class="result"></div>
-        <div id="finalPhoneticValueFour" class="result"></div>
-        <div id="sum" class="result"></div>
-        <div id="firstDigitSum" class="result"></div>
-        <div id="secondDigitSum" class="result"></div>
-        <div id="finalLettersResult" class="result"></div>
         
-        <div class="section">
-            <div id="reverseLetterResult" class="result"></div>
-            <div id="reversePhoneticResult" class="result"></div>
-            <div id="reversePhoneticValueResult" class="result"></div>
-            <div id="reversePhoneticLetterResult" class="result"></div>
-            <div id="reversePhoneticPhoneticResult" class="result"></div>
-            <div id="reversePhoneticValueForPhoneticResult" class="result"></div>
-            <div id="reverseLetterValueForPhoneticResult" class="result"></div>
-            <div id="reversePhoneticPhoneticValueResult" class="result"></div>
-            <div id="reverseFinalPhoneticValue" class="result"></div>
-            <div id="reverseFinalPhoneticLetterValue" class="result"></div>
-            <div id="reverseFinalPhoneticPhoneticValue" class="result"></div>
-            <div id="reverseFinalPhoneticValueFour" class="result"></div>
+        <div id="rightWingResult" class="result-card" style="display: none;">
+            <h3>🦅 الجناح الأيمن</h3>
+            <div class="value" id="rightWingValue"></div>
+        </div>
+        
+        <div id="leftWingResult" class="result-card" style="display: none;">
+            <h3>🦅 الجناح الأيسر</h3>
+            <div class="value" id="leftWingValue"></div>
+        </div>
+        
+        <div id="finalLettersResult" class="result-card final-result" style="display: none;">
+            <h3>📜 الناتج الحرفي النهائي</h3>
+            <div class="value" id="finalLettersValue"></div>
         </div>
     </div>
 
@@ -130,108 +133,77 @@
 
         function calculate() {
             const input = document.getElementById('inputText').value;
+            if (!input.trim()) {
+                alert('الرجاء إدخال نص أولاً');
+                return;
+            }
+            
             let totalValue = 0;
-
             for (let i = 0; i < input.length; i++) {
                 const char = input[i];
                 if (lettersValues[char]) {
                     totalValue += lettersValues[char];
                 }
             }
-
-            document.getElementById('result').innerHTML = 'القيمة العددية لجملتك: ' + totalValue;
             
             const letterResult = convertToLetters(totalValue);
-            document.getElementById('letterResult').innerHTML = 'القيمة الحرفية 1: ' + letterResult;
-
             const phoneticResult = convertToPhonetic(letterResult);
-            document.getElementById('phoneticResult').innerHTML = 'الاستنطاق اللفظي 1: ' + phoneticResult;
-            
             const phoneticValueResult = calculatePhoneticValue(phoneticResult);
-            document.getElementById('phoneticValueResult').innerHTML = 'القيمة العددية 1: ' + phoneticValueResult;
-            
             const phoneticLetterResult = convertToLetters(phoneticValueResult);
-            document.getElementById('phoneticLetterResult').innerHTML = 'القيمة الحرفية 2: ' + phoneticLetterResult;
-            
             const phoneticPhoneticResult = convertToPhonetic(phoneticLetterResult);
-            document.getElementById('phoneticPhoneticResult').innerHTML = 'الاستنطاق اللفظي 2: ' + phoneticPhoneticResult;
-            
             const phoneticValueForPhoneticResult = calculatePhoneticValue(phoneticPhoneticResult);
-            document.getElementById('phoneticValueForPhoneticResult').innerHTML = 'القيمة العددية 2: ' + phoneticValueForPhoneticResult;
-            
             const letterValueForPhoneticResult = convertToLetters(phoneticValueForPhoneticResult);
-            document.getElementById('letterValueForPhoneticResult').innerHTML = 'القيمة الحرفية 3: ' + letterValueForPhoneticResult;
-            
             const phoneticPhoneticValueResult = convertToPhonetic(letterValueForPhoneticResult);
-            document.getElementById('phoneticPhoneticValueResult').innerHTML = 'الاستنطاق اللفظي 3: ' + phoneticPhoneticValueResult;
-
             const finalPhoneticValue = calculatePhoneticValue(phoneticPhoneticValueResult);
-            document.getElementById('finalPhoneticValue').innerHTML = 'القيمة العددية 3: ' + finalPhoneticValue;
-            
             const finalPhoneticLetterValue = convertToLetters(finalPhoneticValue);
-            document.getElementById('finalPhoneticLetterValue').innerHTML = 'القيمة الحرفية 4: ' + finalPhoneticLetterValue;
-            
             const finalPhoneticPhoneticValue = convertToPhonetic(finalPhoneticLetterValue);
-            document.getElementById('finalPhoneticPhoneticValue').innerHTML = 'الاستنطاق اللفظي 4: ' + finalPhoneticPhoneticValue;
-
             const finalPhoneticValueFour = calculatePhoneticValue(finalPhoneticPhoneticValue);
-            document.getElementById('finalPhoneticValueFour').innerHTML = 'القيمة العددية 4: ' + finalPhoneticValueFour;
-
+            
             const sumValue = totalValue + phoneticValueResult + phoneticValueForPhoneticResult + finalPhoneticValue + finalPhoneticValueFour;
-            document.getElementById('sum').innerHTML = 'مجموع القيم العددية: ' + sumValue;
-
-            const firstDigitSum = calculateFirstDigitSum(sumValue);
-            document.getElementById('firstDigitSum').innerHTML = 'الجناح الأيمن: ' + firstDigitSum;
-
-            const secondDigitSum = calculateFirstDigitSum(firstDigitSum);
-            document.getElementById('secondDigitSum').innerHTML = 'الجناح الأيسر: ' + secondDigitSum;
-
-            const finalLettersResult = letterResult + ' ' + phoneticLetterResult + ' ' + letterValueForPhoneticResult + ' ' + finalPhoneticLetterValue;
-            document.getElementById('finalLettersResult').innerHTML = 'الناتج الحرفي النهائي: ' + finalLettersResult;
-
-            document.getElementById('reverseLetterResult').innerHTML = 'القيمة الحرفية 1 (معكوسة): ' + reverseString(letterResult);
-            document.getElementById('reversePhoneticResult').innerHTML = 'الاستنطاق اللفظي 1 (معكوس): ' + reverseString(phoneticResult);
-            document.getElementById('reversePhoneticValueResult').innerHTML = 'القيمة العددية 1 (معكوسة): ' + reverseString(phoneticValueResult.toString());
-            document.getElementById('reversePhoneticLetterResult').innerHTML = 'القيمة الحرفية 2 (معكوسة): ' + reverseString(phoneticLetterResult);
-            document.getElementById('reversePhoneticPhoneticResult').innerHTML = 'الاستنطاق اللفظي 2 (معكوس): ' + reverseString(phoneticPhoneticResult);
-            document.getElementById('reversePhoneticValueForPhoneticResult').innerHTML = 'القيمة العددية 2 (معكوسة): ' + reverseString(phoneticValueForPhoneticResult.toString());
-            document.getElementById('reverseLetterValueForPhoneticResult').innerHTML = 'القيمة الحرفية 3 (معكوسة): ' + reverseString(letterValueForPhoneticResult);
-            document.getElementById('reversePhoneticPhoneticValueResult').innerHTML = 'الاستنطاق اللفظي 3 (معكوس): ' + reverseString(phoneticPhoneticValueResult);
-            document.getElementById('reverseFinalPhoneticValue').innerHTML = 'القيمة العددية 3 (معكوسة): ' + reverseString(finalPhoneticValue.toString());
-            document.getElementById('reverseFinalPhoneticLetterValue').innerHTML = 'القيمة الحرفية 4 (معكوسة): ' + reverseString(finalPhoneticLetterValue);
-            document.getElementById('reverseFinalPhoneticPhoneticValue').innerHTML = 'الاستنطاق اللفظي 4 (معكوس): ' + reverseString(finalPhoneticPhoneticValue);
-            document.getElementById('reverseFinalPhoneticValueFour').innerHTML = 'القيمة العددية 4 (معكوسة): ' + reverseString(finalPhoneticValueFour.toString());
+            const rightWing = calculateDigitSum(sumValue);
+            const leftWing = calculateDigitSum(rightWing);
+            
+            const finalLettersResultText = letterResult + ' ' + phoneticLetterResult + ' ' + letterValueForPhoneticResult + ' ' + finalPhoneticLetterValue;
+            
+            document.getElementById('rightWingValue').innerHTML = rightWing;
+            document.getElementById('leftWingValue').innerHTML = leftWing;
+            document.getElementById('finalLettersValue').innerHTML = finalLettersResultText;
+            
+            document.getElementById('rightWingResult').style.display = 'block';
+            document.getElementById('leftWingResult').style.display = 'block';
+            document.getElementById('finalLettersResult').style.display = 'block';
         }
-
-        function calculateFirstDigitSum(value) {
+        
+        function calculateDigitSum(value) {
             let sum = 0;
-            while (value > 0) {
-                sum += value % 10;
-                value = Math.floor(value / 10);
+            const str = Math.abs(value).toString();
+            for (let i = 0; i < str.length; i++) {
+                sum += parseInt(str[i]);
             }
             return sum;
         }
-
+        
         function convertToLetters(value) {
             const letterValues = Object.entries(lettersValues).sort((a, b) => b[1] - a[1]);
             let result = '';
-            while (value > 0) {
+            let remaining = value;
+            while (remaining > 0) {
                 for (const [letter, val] of letterValues) {
-                    if (value >= val) {
+                    if (remaining >= val) {
                         result = letter + ' ' + result;
-                        value -= val;
+                        remaining -= val;
                         break;
                     }
                 }
             }
             return result.trim();
         }
-
+        
         function convertToPhonetic(letters) {
             if (!letters) return '';
             return letters.split(' ').map(letter => phoneticValues[letter] || letter).join(' ');
         }
-
+        
         function calculatePhoneticValue(phonetic) {
             let totalValue = 0;
             for (let i = 0; i < phonetic.length; i++) {
@@ -242,18 +214,15 @@
             }
             return totalValue;
         }
-
+        
         function reset() {
             document.getElementById('inputText').value = '';
-            const results = ['result', 'letterResult', 'phoneticResult', 'phoneticValueResult', 'phoneticLetterResult', 'phoneticPhoneticResult', 'phoneticValueForPhoneticResult', 'letterValueForPhoneticResult', 'phoneticPhoneticValueResult', 'finalPhoneticValue', 'finalPhoneticLetterValue', 'finalPhoneticPhoneticValue', 'finalPhoneticValueFour', 'sum', 'firstDigitSum', 'secondDigitSum', 'finalLettersResult', 'reverseLetterResult', 'reversePhoneticResult', 'reversePhoneticValueResult', 'reversePhoneticLetterResult', 'reversePhoneticPhoneticResult', 'reversePhoneticValueForPhoneticResult', 'reverseLetterValueForPhoneticResult', 'reversePhoneticPhoneticValueResult', 'reverseFinalPhoneticValue', 'reverseFinalPhoneticLetterValue', 'reverseFinalPhoneticPhoneticValue', 'reverseFinalPhoneticValueFour'];
-            results.forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.innerHTML = '';
-            });
-        }
-
-        function reverseString(str) {
-            return str.split('').reverse().join('');
+            document.getElementById('rightWingResult').style.display = 'none';
+            document.getElementById('leftWingResult').style.display = 'none';
+            document.getElementById('finalLettersResult').style.display = 'none';
+            document.getElementById('rightWingValue').innerHTML = '';
+            document.getElementById('leftWingValue').innerHTML = '';
+            document.getElementById('finalLettersValue').innerHTML = '';
         }
     </script>
 </body>
