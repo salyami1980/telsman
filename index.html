@@ -11,219 +11,392 @@
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
-            font-family: 'Arial', sans-serif;
-            text-align: center;
-            direction: rtl;
-            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb4d);
+            font-family: 'Segoe UI', 'Tajawal', 'Arial', sans-serif;
+            background: linear-gradient(145deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
             min-height: 100vh;
             padding: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
         }
-        .container {
-            max-width: 500px;
+
+        .glass-card {
+            max-width: 650px;
             width: 100%;
-            background: rgba(255,255,255,0.95);
-            border-radius: 24px;
-            padding: 30px 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            border-radius: 48px;
+            padding: 30px 25px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.15);
         }
+
         h1 {
-            color: #1a2a6c;
-            font-size: 24px;
-            margin-bottom: 20px;
+            text-align: center;
+            color: #FFE6A7;
+            font-size: 28px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
         }
+
+        h1:before {
+            content: "🔢";
+            font-size: 32px;
+        }
+
+        h1:after {
+            content: "✨";
+            font-size: 32px;
+        }
+
+        .sub {
+            text-align: center;
+            color: #cdc9ff;
+            margin-bottom: 30px;
+            font-size: 14px;
+            border-bottom: 1px dashed rgba(255,255,255,0.2);
+            padding-bottom: 12px;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
         input[type="text"] {
-            padding: 14px;
-            width: 90%;
-            margin-bottom: 15px;
+            width: 100%;
+            padding: 16px 20px;
             font-size: 18px;
-            border: 2px solid #ddd;
-            border-radius: 12px;
+            border: none;
+            border-radius: 60px;
+            background: rgba(255, 255, 255, 0.95);
             text-align: center;
             font-family: inherit;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s;
+            color: #1e1a3a;
+            font-weight: 500;
         }
+
+        input[type="text"]:focus {
+            outline: none;
+            background: white;
+            transform: scale(1.01);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
         button {
-            padding: 12px 24px;
+            padding: 12px 28px;
             font-size: 16px;
-            cursor: pointer;
-            background: #1a2a6c;
-            color: white;
-            border: none;
-            border-radius: 12px;
-            margin: 5px;
-            transition: transform 0.2s;
-        }
-        button:hover {
-            transform: scale(1.02);
-        }
-        button:last-child {
-            background: #b21f1f;
-        }
-        .result-card {
-            background: linear-gradient(135deg, #1a2a6c, #2a3a7c);
-            color: white;
-            padding: 15px;
-            margin-top: 15px;
-            border-radius: 16px;
-            text-align: center;
-        }
-        .result-card h3 {
-            font-size: 18px;
-            margin-bottom: 8px;
-            opacity: 0.9;
-        }
-        .result-card .value {
-            font-size: 22px;
             font-weight: bold;
-            word-wrap: break-word;
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: inherit;
+            background: #FFD166;
+            color: #1e1a3a;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
-        .final-result {
-            background: linear-gradient(135deg, #fdbb4d, #ff9800);
-            color: #1a2a6c;
+
+        button:first-of-type {
+            background: #06D6A0;
+            color: #1a2a3a;
         }
-        .final-result .value {
+
+        button:last-of-type {
+            background: #EF476F;
+            color: white;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            filter: brightness(1.02);
+        }
+
+        button:active {
+            transform: translateY(2px);
+        }
+
+        /* ========== النتيجة الرئيسية في سطر واحد ========== */
+        .result-row {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(8px);
+            border-radius: 60px;
+            padding: 16px 20px;
+            margin-top: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: nowrap;
+            border: 1px solid rgba(255,255,200,0.3);
+            transition: all 0.2s;
+        }
+
+        /* العنصر الأيمن (الجناح الأيمن) */
+        .right-wing {
+            background: linear-gradient(135deg, #06D6A0, #059e75);
+            border-radius: 50px;
+            padding: 8px 18px;
+            min-width: 70px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .right-wing span:first-child {
             font-size: 20px;
+            display: block;
+        }
+
+        .right-wing .number {
+            font-size: 28px;
+            font-weight: bold;
+            color: white;
+            line-height: 1.2;
+        }
+
+        /* العنصر الأوسط (الناتج الحرفي) */
+        .middle-text {
+            flex: 1;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 50px;
+            padding: 8px 12px;
+            min-width: 0;
+        }
+
+        .middle-text span:first-child {
+            font-size: 12px;
+            color: #FFE6A7;
+            letter-spacing: 1px;
+        }
+
+        .middle-text .letters-value {
+            font-size: 16px;
+            font-weight: bold;
+            color: #FFE6A7;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            line-height: 1.4;
+        }
+
+        /* العنصر الأيسر (الجناح الأيسر) */
+        .left-wing {
+            background: linear-gradient(135deg, #FFD166, #e6a800);
+            border-radius: 50px;
+            padding: 8px 18px;
+            min-width: 70px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .left-wing span:first-child {
+            font-size: 20px;
+            display: block;
+        }
+
+        .left-wing .number {
+            font-size: 28px;
+            font-weight: bold;
+            color: #1e1a3a;
+            line-height: 1.2;
+        }
+
+        /* تذييل */
+        .footer-note {
+            text-align: center;
+            margin-top: 28px;
+            font-size: 12px;
+            color: #bbb8e6;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 18px;
+        }
+
+        /* للأجهزة الصغيرة: تحويل المرونة إلى عمود إذا ضاقت */
+        @media (max-width: 550px) {
+            .result-row {
+                flex-wrap: wrap;
+                justify-content: center;
+                border-radius: 32px;
+                gap: 12px;
+            }
+            .right-wing, .left-wing {
+                min-width: 60px;
+            }
+            .middle-text {
+                order: 3;
+                width: 100%;
+                flex: auto;
+            }
+            .left-wing {
+                order: 2;
+            }
+        }
+
+        /* إخفاء العناصر القديمة */
+        #rightWingResult, #leftWingResult, #finalLettersResult {
+            display: none !important;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>حساب الطلسم</h1>
-        <input type="text" id="inputText" placeholder="أدخل النص هنا...">
-        <div>
-            <button onclick="calculate()">احسب</button>
-            <button onclick="reset()">مسح</button>
+
+<div class="glass-card">
+    <h1>حساب الطلسم</h1>
+    <div class="sub">أدخل جملة أو اسماً واحصل على النتيجة</div>
+
+    <div class="input-group">
+        <input type="text" id="inputText" placeholder="مثال: محمد علي">
+    </div>
+
+    <div class="button-group">
+        <button onclick="calculate()">✨ احسب</button>
+        <button onclick="reset()">🗑️ مسح</button>
+    </div>
+
+    <!-- النتيجة الجديدة في سطر واحد -->
+    <div id="mainResultRow" class="result-row" style="display: none;">
+        <!-- الجهة اليمنى: الجناح الأيمن -->
+        <div class="right-wing">
+            <span>🦅</span>
+            <div class="number" id="rightWingNumber"></div>
         </div>
-        
-        <div id="rightWingResult" class="result-card" style="display: none;">
-            <h3>🦅 الجناح الأيمن</h3>
-            <div class="value" id="rightWingValue"></div>
+
+        <!-- الجهة الوسطى: الناتج الحرفي -->
+        <div class="middle-text">
+            <span>📜 الناتج الحرفي</span>
+            <div class="letters-value" id="finalLettersText"></div>
         </div>
-        
-        <div id="leftWingResult" class="result-card" style="display: none;">
-            <h3>🦅 الجناح الأيسر</h3>
-            <div class="value" id="leftWingValue"></div>
-        </div>
-        
-        <div id="finalLettersResult" class="result-card final-result" style="display: none;">
-            <h3>📜 الناتج الحرفي النهائي</h3>
-            <div class="value" id="finalLettersValue"></div>
+
+        <!-- الجهة اليسرى: الجناح الأيسر -->
+        <div class="left-wing">
+            <span>🦅</span>
+            <div class="number" id="leftWingNumber"></div>
         </div>
     </div>
 
-    <script>
-        const lettersValues = {
-            'أ': 1, 'ا': 1, 'ب': 2, 'ج': 3, 'د': 4, 'ه': 5, 'و': 6, 'ز': 7, 'ح': 8,
-            'ط': 9, 'ي': 10, 'ك': 20, 'ل': 30, 'م': 40, 'ن': 50, 'س': 60, 'ع': 70,
-            'ف': 80, 'ص': 90, 'ق': 100, 'ر': 200, 'ش': 300, 'ت': 400, 'ث': 500,
-            'خ': 600, 'ذ': 700, 'ض': 800, 'ظ': 900, 'غ': 1000, 'ء': 0, 'ى': 1,
-            'ئ': 10, 'ؤ': 6, 'إ': 1
-        };
+    <div class="footer-note">
+        ⚡ حساب دقيق وفق القيم العددية للحروف
+    </div>
+</div>
 
-        const phoneticValues = {
-            'أ': 'الف', 'ا': 'الف', 'ب': 'با', 'ج': 'جيم', 'د': 'دال', 'ه': 'ها', 'و': 'واو', 'ز': 'زاي', 'ح': 'حا',
-            'ط': 'طا', 'ي': 'يا', 'ك': 'كاف', 'ل': 'لام', 'م': 'ميم', 'ن': 'نون', 'س': 'سين', 'ع': 'عين', 'ف': 'فا',
-            'ص': 'صاد', 'ق': 'قاف', 'ر': 'را', 'ش': 'شين', 'ت': 'تا', 'ث': 'ثا', 'خ': 'خا', 'ذ': 'ذال', 'ض': 'ضاد',
-            'ظ': 'ظا', 'غ': 'غين', 'ء': '', 'ى': ''
-        };
+<script>
+    // -------- البيانات الأساسية (لم تتغير) --------
+    const lettersValues = {
+        'أ': 1, 'ا': 1, 'ب': 2, 'ج': 3, 'د': 4, 'ه': 5, 'و': 6, 'ز': 7, 'ح': 8,
+        'ط': 9, 'ي': 10, 'ك': 20, 'ل': 30, 'م': 40, 'ن': 50, 'س': 60, 'ع': 70,
+        'ف': 80, 'ص': 90, 'ق': 100, 'ر': 200, 'ش': 300, 'ت': 400, 'ث': 500,
+        'خ': 600, 'ذ': 700, 'ض': 800, 'ظ': 900, 'غ': 1000, 'ء': 0, 'ى': 1,
+        'ئ': 10, 'ؤ': 6, 'إ': 1
+    };
 
-        function calculate() {
-            const input = document.getElementById('inputText').value;
-            if (!input.trim()) {
-                alert('الرجاء إدخال نص أولاً');
-                return;
-            }
-            
-            let totalValue = 0;
-            for (let i = 0; i < input.length; i++) {
-                const char = input[i];
-                if (lettersValues[char]) {
-                    totalValue += lettersValues[char];
+    const phoneticValues = {
+        'أ': 'الف', 'ا': 'الف', 'ب': 'با', 'ج': 'جيم', 'د': 'دال', 'ه': 'ها', 'و': 'واو', 'ز': 'زاي', 'ح': 'حا',
+        'ط': 'طا', 'ي': 'يا', 'ك': 'كاف', 'ل': 'لام', 'م': 'ميم', 'ن': 'نون', 'س': 'سين', 'ع': 'عين', 'ف': 'فا',
+        'ص': 'صاد', 'ق': 'قاف', 'ر': 'را', 'ش': 'شين', 'ت': 'تا', 'ث': 'ثا', 'خ': 'خا', 'ذ': 'ذال', 'ض': 'ضاد',
+        'ظ': 'ظا', 'غ': 'غين', 'ء': '', 'ى': ''
+    };
+
+    // ----------------- دوال الحساب الأساسية (لم نغير شيئاً) ----------------
+    function calculate() {
+        const input = document.getElementById('inputText').value;
+        if (!input.trim()) {
+            alert('الرجاء إدخال نص أولاً');
+            return;
+        }
+
+        let totalValue = 0;
+        for (let i = 0; i < input.length; i++) {
+            const char = input[i];
+            if (lettersValues[char]) totalValue += lettersValues[char];
+        }
+
+        const letterResult = convertToLetters(totalValue);
+        const phoneticResult = convertToPhonetic(letterResult);
+        const phoneticValueResult = calculatePhoneticValue(phoneticResult);
+        const phoneticLetterResult = convertToLetters(phoneticValueResult);
+        const phoneticPhoneticResult = convertToPhonetic(phoneticLetterResult);
+        const phoneticValueForPhoneticResult = calculatePhoneticValue(phoneticPhoneticResult);
+        const letterValueForPhoneticResult = convertToLetters(phoneticValueForPhoneticResult);
+        const phoneticPhoneticValueResult = convertToPhonetic(letterValueForPhoneticResult);
+        const finalPhoneticValue = calculatePhoneticValue(phoneticPhoneticValueResult);
+        const finalPhoneticLetterValue = convertToLetters(finalPhoneticValue);
+
+        // المجموع الكلي (حتى القيمة العددية 3 فقط حسب طلبك السابق)
+        const sumValue = totalValue + phoneticValueResult + phoneticValueForPhoneticResult + finalPhoneticValue;
+        
+        const rightWing = calculateFirstDigitSum(sumValue);
+        const leftWing = calculateFirstDigitSum(rightWing);
+        
+        const finalLettersResultText = letterResult + ' ' + phoneticLetterResult + ' ' + letterValueForPhoneticResult + ' ' + finalPhoneticLetterValue;
+
+        // عرض النتائج داخل العناصر الجديدة
+        document.getElementById('rightWingNumber').innerHTML = rightWing;
+        document.getElementById('leftWingNumber').innerHTML = leftWing;
+        document.getElementById('finalLettersText').innerHTML = finalLettersResultText;
+
+        // إظهار السطر الأفقي الجديد
+        document.getElementById('mainResultRow').style.display = 'flex';
+    }
+
+    function calculateFirstDigitSum(value) {
+        let sum = 0;
+        while (value > 0) {
+            sum += value % 10;
+            value = Math.floor(value / 10);
+        }
+        return sum;
+    }
+
+    function convertToLetters(value) {
+        const letterValues = Object.entries(lettersValues).sort((a, b) => b[1] - a[1]);
+        let result = '';
+        let remaining = value;
+        while (remaining > 0) {
+            for (const [letter, val] of letterValues) {
+                if (remaining >= val) {
+                    result = letter + ' ' + result;
+                    remaining -= val;
+                    break;
                 }
             }
-            
-            const letterResult = convertToLetters(totalValue);
-            const phoneticResult = convertToPhonetic(letterResult);
-            const phoneticValueResult = calculatePhoneticValue(phoneticResult);
-            const phoneticLetterResult = convertToLetters(phoneticValueResult);
-            const phoneticPhoneticResult = convertToPhonetic(phoneticLetterResult);
-            const phoneticValueForPhoneticResult = calculatePhoneticValue(phoneticPhoneticResult);
-            const letterValueForPhoneticResult = convertToLetters(phoneticValueForPhoneticResult);
-            const phoneticPhoneticValueResult = convertToPhonetic(letterValueForPhoneticResult);
-            const finalPhoneticValue = calculatePhoneticValue(phoneticPhoneticValueResult);
-            const finalPhoneticLetterValue = convertToLetters(finalPhoneticValue);
-            const finalPhoneticPhoneticValue = convertToPhonetic(finalPhoneticLetterValue);
-            const finalPhoneticValueFour = calculatePhoneticValue(finalPhoneticPhoneticValue);
-            
-            const sumValue = totalValue + phoneticValueResult + phoneticValueForPhoneticResult + finalPhoneticValue + finalPhoneticValueFour;
-            const rightWing = calculateDigitSum(sumValue);
-            const leftWing = calculateDigitSum(rightWing);
-            
-            const finalLettersResultText = letterResult + ' ' + phoneticLetterResult + ' ' + letterValueForPhoneticResult + ' ' + finalPhoneticLetterValue;
-            
-            document.getElementById('rightWingValue').innerHTML = rightWing;
-            document.getElementById('leftWingValue').innerHTML = leftWing;
-            document.getElementById('finalLettersValue').innerHTML = finalLettersResultText;
-            
-            document.getElementById('rightWingResult').style.display = 'block';
-            document.getElementById('leftWingResult').style.display = 'block';
-            document.getElementById('finalLettersResult').style.display = 'block';
         }
-        
-        function calculateDigitSum(value) {
-            let sum = 0;
-            const str = Math.abs(value).toString();
-            for (let i = 0; i < str.length; i++) {
-                sum += parseInt(str[i]);
-            }
-            return sum;
+        return result.trim();
+    }
+
+    function convertToPhonetic(letters) {
+        if (!letters) return '';
+        return letters.split(' ').map(letter => phoneticValues[letter] || letter).join(' ');
+    }
+
+    function calculatePhoneticValue(phonetic) {
+        let totalValue = 0;
+        for (let i = 0; i < phonetic.length; i++) {
+            const char = phonetic[i];
+            if (lettersValues[char]) totalValue += lettersValues[char];
         }
-        
-        function convertToLetters(value) {
-            const letterValues = Object.entries(lettersValues).sort((a, b) => b[1] - a[1]);
-            let result = '';
-            let remaining = value;
-            while (remaining > 0) {
-                for (const [letter, val] of letterValues) {
-                    if (remaining >= val) {
-                        result = letter + ' ' + result;
-                        remaining -= val;
-                        break;
-                    }
-                }
-            }
-            return result.trim();
-        }
-        
-        function convertToPhonetic(letters) {
-            if (!letters) return '';
-            return letters.split(' ').map(letter => phoneticValues[letter] || letter).join(' ');
-        }
-        
-        function calculatePhoneticValue(phonetic) {
-            let totalValue = 0;
-            for (let i = 0; i < phonetic.length; i++) {
-                const char = phonetic[i];
-                if (lettersValues[char]) {
-                    totalValue += lettersValues[char];
-                }
-            }
-            return totalValue;
-        }
-        
-        function reset() {
-            document.getElementById('inputText').value = '';
-            document.getElementById('rightWingResult').style.display = 'none';
-            document.getElementById('leftWingResult').style.display = 'none';
-            document.getElementById('finalLettersResult').style.display = 'none';
-            document.getElementById('rightWingValue').innerHTML = '';
-            document.getElementById('leftWingValue').innerHTML = '';
-            document.getElementById('finalLettersValue').innerHTML = '';
-        }
-    </script>
+        return totalValue;
+    }
+
+    function reset() {
+        document.getElementById('inputText').value = '';
+        document.getElementById('mainResultRow').style.display = 'none';
+        document.getElementById('rightWingNumber').innerHTML = '';
+        document.getElementById('leftWingNumber').innerHTML = '';
+        document.getElementById('finalLettersText').innerHTML = '';
+    }
+</script>
+
 </body>
 </html>
