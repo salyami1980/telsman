@@ -2,7 +2,11 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#1a2a6c">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="حساب الطلسم">
     <title>حساب الطلسم</title>
     <link rel="manifest" href="manifest.json">
     <style>
@@ -10,75 +14,83 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            font-family: 'Segoe UI', 'Tajawal', 'Tahoma', 'Arial', sans-serif;
+            font-family: -apple-system, 'Segoe UI', 'Tajawal', 'Tahoma', sans-serif;
             background: linear-gradient(145deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
             min-height: 100vh;
-            padding: 16px;
+            min-height: -webkit-fill-available;
             display: flex;
             justify-content: center;
             align-items: center;
+            position: relative;
+        }
+
+        /* تعويض الشاشات الطويلة (نوتش) */
+        html {
+            height: -webkit-fill-available;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px 16px 30px;
+            min-height: 100vh;
+            min-height: -webkit-fill-available;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .glass-card {
-            max-width: 600px;
             width: 100%;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(12px);
-            border-radius: 40px;
-            padding: 24px 20px;
-            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 44px;
+            padding: 28px 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1);
         }
 
         h1 {
             text-align: center;
             color: #FFE6A7;
-            font-size: 26px;
+            font-size: 28px;
+            font-weight: 700;
             margin-bottom: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        h1:before {
-            content: "🔢";
-            font-size: 28px;
-        }
-
-        h1:after {
-            content: "✨";
-            font-size: 28px;
+            letter-spacing: -0.3px;
         }
 
         .sub {
             text-align: center;
-            color: #cdc9ff;
-            margin-bottom: 25px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 28px;
             font-size: 13px;
-            border-bottom: 1px dashed rgba(255,255,255,0.2);
+            font-weight: 400;
             padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
 
         .input-group {
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
 
         input[type="text"] {
             width: 100%;
-            padding: 14px 18px;
+            padding: 18px 20px;
             font-size: 16px;
             border: none;
-            border-radius: 50px;
+            border-radius: 34px;
             background: rgba(255, 255, 255, 0.95);
             text-align: center;
             font-family: inherit;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            transition: all 0.2s;
-            color: #1e1a3a;
             font-weight: 500;
+            color: #1e1a3a;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         input[type="text"]:focus {
@@ -87,26 +99,33 @@
             transform: scale(1.01);
         }
 
+        input[type="text"]::placeholder {
+            color: #aaa;
+            font-weight: 400;
+            font-size: 14px;
+        }
+
         .button-group {
             display: flex;
             gap: 12px;
             justify-content: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
+            margin-bottom: 24px;
         }
 
         button {
-            padding: 10px 24px;
-            font-size: 15px;
-            font-weight: bold;
+            flex: 1;
+            max-width: 140px;
+            padding: 14px 0;
+            font-size: 16px;
+            font-weight: 600;
             border: none;
-            border-radius: 40px;
+            border-radius: 34px;
             cursor: pointer;
-            transition: 0.2s;
+            transition: all 0.2s ease;
             font-family: inherit;
             background: #FFD166;
             color: #1e1a3a;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
 
         button:first-of-type {
@@ -119,153 +138,147 @@
             color: white;
         }
 
-        button:hover {
-            transform: translateY(-2px);
-            filter: brightness(1.02);
-        }
-
         button:active {
-            transform: translateY(1px);
+            transform: scale(0.96);
+            opacity: 0.9;
         }
 
-        /* ========== النتيجة الرئيسية في سطر واحد (متجاوبة) ========== */
+        /* ========== النتيجة الرئيسية (تصميم تطبيق احترافي) ========== */
         .result-row {
-            background: rgba(255, 255, 255, 0.12);
-            backdrop-filter: blur(8px);
-            border-radius: 50px;
-            padding: 12px 16px;
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 60px;
+            padding: 8px 12px;
             margin-top: 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 10px;
-            flex-wrap: nowrap;
-            border: 1px solid rgba(255,255,200,0.25);
-            transition: all 0.2s;
+            gap: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
         }
 
-        /* العنصر الأيمن (الجناح الأيمن) */
+        /* الجناح الأيمن */
         .right-wing {
             background: linear-gradient(135deg, #06D6A0, #059e75);
-            border-radius: 40px;
-            padding: 6px 14px;
-            min-width: 65px;
+            border-radius: 50px;
+            padding: 8px 0;
+            min-width: 60px;
             text-align: center;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
-        }
-
-        .right-wing span {
-            font-size: 18px;
-            display: block;
         }
 
         .right-wing .number {
-            font-size: 24px;
-            font-weight: bold;
+            font-size: 22px;
+            font-weight: 800;
             color: white;
-            line-height: 1.2;
+            line-height: 1;
         }
 
-        /* العنصر الأوسط (الناتج الحرفي) */
+        /* الناتج الحرفي (المنتصف) */
         .middle-text {
             flex: 1;
             text-align: center;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 40px;
-            padding: 6px 10px;
-            min-width: 0;
-        }
-
-        .middle-text span {
-            font-size: 11px;
-            color: #FFE6A7;
-            letter-spacing: 0.5px;
-            display: block;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 50px;
+            padding: 8px 8px;
         }
 
         .middle-text .letters-value {
-            font-size: 14px;
-            font-weight: bold;
-            color: #fff3cf;
+            font-size: 13px;
+            font-weight: 600;
+            color: #FFE6A7;
             word-wrap: break-word;
             overflow-wrap: break-word;
-            line-height: 1.35;
+            line-height: 1.4;
+            letter-spacing: 0.3px;
         }
 
-        /* العنصر الأيسر (الجناح الأيسر) */
+        /* الجناح الأيسر */
         .left-wing {
             background: linear-gradient(135deg, #FFD166, #e6a800);
-            border-radius: 40px;
-            padding: 6px 14px;
-            min-width: 65px;
+            border-radius: 50px;
+            padding: 8px 0;
+            min-width: 60px;
             text-align: center;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
-        }
-
-        .left-wing span {
-            font-size: 18px;
-            display: block;
         }
 
         .left-wing .number {
-            font-size: 24px;
-            font-weight: bold;
+            font-size: 22px;
+            font-weight: 800;
             color: #1e1a3a;
-            line-height: 1.2;
+            line-height: 1;
         }
 
-        /* تذييل */
+        /* تذييل أنيق */
         .footer-note {
             text-align: center;
             margin-top: 24px;
             font-size: 11px;
-            color: #bbb8e6;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            padding-top: 14px;
+            color: rgba(255, 255, 255, 0.45);
+            font-weight: 400;
         }
 
-        /* ========== تحسين مخصص للشاشات الصغيرة جداً (حتى 480px) ========== */
-        @media (max-width: 550px) {
-            body {
-                padding: 12px;
+        /* ========== تحسين الجوال (شاشات صغيرة جداً) ========== */
+        @media (max-width: 480px) {
+            .app-container {
+                padding: 12px 12px 20px;
             }
             .glass-card {
-                padding: 20px 15px;
+                padding: 22px 16px;
+                border-radius: 36px;
+            }
+            h1 {
+                font-size: 24px;
+            }
+            .sub {
+                font-size: 12px;
+                margin-bottom: 22px;
+            }
+            input[type="text"] {
+                padding: 14px 16px;
+                font-size: 15px;
+            }
+            button {
+                padding: 12px 0;
+                font-size: 14px;
+                max-width: 120px;
             }
             .result-row {
-                flex-wrap: wrap;
-                justify-content: center;
-                border-radius: 30px;
-                gap: 12px;
-                padding: 14px;
+                padding: 6px 10px;
+                gap: 6px;
             }
             .right-wing, .left-wing {
-                min-width: 60px;
-                padding: 5px 10px;
+                min-width: 50px;
+                padding: 5px 0;
             }
             .right-wing .number, .left-wing .number {
-                font-size: 22px;
+                font-size: 18px;
             }
-            .middle-text {
-                order: 3;
-                width: 100%;
-                flex: auto;
-                margin-top: 4px;
-            }
-            .left-wing {
-                order: 2;
-            }
-            .right-wing {
-                order: 1;
+            .middle-text .letters-value {
+                font-size: 11px;
             }
         }
 
-        /* تحسين إضافي للشاشات المتوسطة */
-        @media (min-width: 551px) and (max-width: 650px) {
+        /* شاشات صغيرة جداً (أقل من 380) */
+        @media (max-width: 380px) {
+            .glass-card {
+                padding: 18px 12px;
+            }
+            .right-wing, .left-wing {
+                min-width: 45px;
+            }
             .right-wing .number, .left-wing .number {
-                font-size: 22px;
+                font-size: 16px;
             }
             .middle-text .letters-value {
+                font-size: 10px;
+            }
+            .button-group {
+                gap: 8px;
+            }
+            button {
+                max-width: 100px;
+                padding: 10px 0;
                 font-size: 13px;
             }
         }
@@ -277,152 +290,140 @@
     </style>
 </head>
 <body>
+    <div class="app-container">
+        <div class="glass-card">
+            <h1>🔢 حساب الطلسم</h1>
+            <div class="sub">أدخل الجملة المطلوبة</div>
 
-<div class="glass-card">
-    <h1>حساب الطلسم</h1>
-    <div class="sub">أدخل جملة المطلوب</div>
+            <div class="input-group">
+                <input type="text" id="inputText" placeholder="مثال: الله يفتح على فلان">
+            </div>
 
-    <div class="input-group">
-        <input type="text" id="inputText" placeholder="مثال: الله يفتح على فلان بن فلانه">
-    </div>
+            <div class="button-group">
+                <button onclick="calculate()">احسب</button>
+                <button onclick="reset()">مسح</button>
+            </div>
 
-    <div class="button-group">
-        <button onclick="calculate()">✨ احسب</button>
-        <button onclick="reset()">🗑️ مسح</button>
-    </div>
+            <!-- النتيجة الاحترافية في سطر واحد -->
+            <div id="mainResultRow" class="result-row" style="display: none;">
+                <div class="right-wing">
+                    <div class="number" id="rightWingNumber"></div>
+                </div>
+                <div class="middle-text">
+                    <div class="letters-value" id="finalLettersText"></div>
+                </div>
+                <div class="left-wing">
+                    <div class="number" id="leftWingNumber"></div>
+                </div>
+            </div>
 
-    <!-- النتيجة الجديدة في سطر واحد -->
-    <div id="mainResultRow" class="result-row" style="display: none;">
-        <!-- الجهة اليمنى: الجناح الأيمن -->
-        <div class="right-wing">
-            <span>🦅</span>
-            <div class="number" id="rightWingNumber"></div>
-        </div>
-
-        <!-- الجهة الوسطى: الناتج الحرفي -->
-        <div class="middle-text">
-            <span>📜 الطلسم النهائي</span>
-            <div class="letters-value" id="finalLettersText"></div>
-        </div>
-
-        <!-- الجهة اليسرى: الجناح الأيسر -->
-        <div class="left-wing">
-            <span>🦅</span>
-            <div class="number" id="leftWingNumber"></div>
+            <div class="footer-note">
+                ⚡ برمجة أبو فارس
+            </div>
         </div>
     </div>
 
-    <div class="footer-note">
-        ⚡ برمجة أبو فارس
-    </div>
-</div>
+    <script>
+        // -------- البيانات الأساسية --------
+        const lettersValues = {
+            'أ': 1, 'ا': 1, 'ب': 2, 'ج': 3, 'د': 4, 'ه': 5, 'و': 6, 'ز': 7, 'ح': 8,
+            'ط': 9, 'ي': 10, 'ك': 20, 'ل': 30, 'م': 40, 'ن': 50, 'س': 60, 'ع': 70,
+            'ف': 80, 'ص': 90, 'ق': 100, 'ر': 200, 'ش': 300, 'ت': 400, 'ث': 500,
+            'خ': 600, 'ذ': 700, 'ض': 800, 'ظ': 900, 'غ': 1000, 'ء': 0, 'ى': 1,
+            'ئ': 10, 'ؤ': 6, 'إ': 1
+        };
 
-<script>
-    // -------- البيانات الأساسية --------
-    const lettersValues = {
-        'أ': 1, 'ا': 1, 'ب': 2, 'ج': 3, 'د': 4, 'ه': 5, 'و': 6, 'ز': 7, 'ح': 8,
-        'ط': 9, 'ي': 10, 'ك': 20, 'ل': 30, 'م': 40, 'ن': 50, 'س': 60, 'ع': 70,
-        'ف': 80, 'ص': 90, 'ق': 100, 'ر': 200, 'ش': 300, 'ت': 400, 'ث': 500,
-        'خ': 600, 'ذ': 700, 'ض': 800, 'ظ': 900, 'غ': 1000, 'ء': 0, 'ى': 1,
-        'ئ': 10, 'ؤ': 6, 'إ': 1
-    };
+        const phoneticValues = {
+            'أ': 'الف', 'ا': 'الف', 'ب': 'با', 'ج': 'جيم', 'د': 'دال', 'ه': 'ها', 'و': 'واو', 'ز': 'زاي', 'ح': 'حا',
+            'ط': 'طا', 'ي': 'يا', 'ك': 'كاف', 'ل': 'لام', 'م': 'ميم', 'ن': 'نون', 'س': 'سين', 'ع': 'عين', 'ف': 'فا',
+            'ص': 'صاد', 'ق': 'قاف', 'ر': 'را', 'ش': 'شين', 'ت': 'تا', 'ث': 'ثا', 'خ': 'خا', 'ذ': 'ذال', 'ض': 'ضاد',
+            'ظ': 'ظا', 'غ': 'غين', 'ء': '', 'ى': ''
+        };
 
-    const phoneticValues = {
-        'أ': 'الف', 'ا': 'الف', 'ب': 'با', 'ج': 'جيم', 'د': 'دال', 'ه': 'ها', 'و': 'واو', 'ز': 'زاي', 'ح': 'حا',
-        'ط': 'طا', 'ي': 'يا', 'ك': 'كاف', 'ل': 'لام', 'م': 'ميم', 'ن': 'نون', 'س': 'سين', 'ع': 'عين', 'ف': 'فا',
-        'ص': 'صاد', 'ق': 'قاف', 'ر': 'را', 'ش': 'شين', 'ت': 'تا', 'ث': 'ثا', 'خ': 'خا', 'ذ': 'ذال', 'ض': 'ضاد',
-        'ظ': 'ظا', 'غ': 'غين', 'ء': '', 'ى': ''
-    };
+        // ----------------- دوال الحساب الأساسية -----------------
+        function calculate() {
+            const input = document.getElementById('inputText').value;
+            if (!input.trim()) {
+                alert('الرجاء إدخال نص أولاً');
+                return;
+            }
 
-    // ----------------- دوال الحساب الأساسية -----------------
-    function calculate() {
-        const input = document.getElementById('inputText').value;
-        if (!input.trim()) {
-            alert('الرجاء إدخال نص أولاً');
-            return;
+            let totalValue = 0;
+            for (let i = 0; i < input.length; i++) {
+                const char = input[i];
+                if (lettersValues[char]) totalValue += lettersValues[char];
+            }
+
+            const letterResult = convertToLetters(totalValue);
+            const phoneticResult = convertToPhonetic(letterResult);
+            const phoneticValueResult = calculatePhoneticValue(phoneticResult);
+            const phoneticLetterResult = convertToLetters(phoneticValueResult);
+            const phoneticPhoneticResult = convertToPhonetic(phoneticLetterResult);
+            const phoneticValueForPhoneticResult = calculatePhoneticValue(phoneticPhoneticResult);
+            const letterValueForPhoneticResult = convertToLetters(phoneticValueForPhoneticResult);
+            const phoneticPhoneticValueResult = convertToPhonetic(letterValueForPhoneticResult);
+            const finalPhoneticValue = calculatePhoneticValue(phoneticPhoneticValueResult);
+            const finalPhoneticLetterValue = convertToLetters(finalPhoneticValue);
+
+            const sumValue = totalValue + phoneticValueResult + phoneticValueForPhoneticResult + finalPhoneticValue;
+            
+            const rightWing = calculateFirstDigitSum(sumValue);
+            const leftWing = calculateFirstDigitSum(rightWing);
+            
+            const finalLettersResultText = letterResult + ' ' + phoneticLetterResult + ' ' + letterValueForPhoneticResult + ' ' + finalPhoneticLetterValue;
+
+            document.getElementById('rightWingNumber').innerHTML = rightWing;
+            document.getElementById('leftWingNumber').innerHTML = leftWing;
+            document.getElementById('finalLettersText').innerHTML = finalLettersResultText;
+            document.getElementById('mainResultRow').style.display = 'flex';
         }
 
-        let totalValue = 0;
-        for (let i = 0; i < input.length; i++) {
-            const char = input[i];
-            if (lettersValues[char]) totalValue += lettersValues[char];
+        function calculateFirstDigitSum(value) {
+            let sum = 0;
+            while (value > 0) {
+                sum += value % 10;
+                value = Math.floor(value / 10);
+            }
+            return sum;
         }
 
-        const letterResult = convertToLetters(totalValue);
-        const phoneticResult = convertToPhonetic(letterResult);
-        const phoneticValueResult = calculatePhoneticValue(phoneticResult);
-        const phoneticLetterResult = convertToLetters(phoneticValueResult);
-        const phoneticPhoneticResult = convertToPhonetic(phoneticLetterResult);
-        const phoneticValueForPhoneticResult = calculatePhoneticValue(phoneticPhoneticResult);
-        const letterValueForPhoneticResult = convertToLetters(phoneticValueForPhoneticResult);
-        const phoneticPhoneticValueResult = convertToPhonetic(letterValueForPhoneticResult);
-        const finalPhoneticValue = calculatePhoneticValue(phoneticPhoneticValueResult);
-        const finalPhoneticLetterValue = convertToLetters(finalPhoneticValue);
-
-        // المجموع الكلي (حتى القيمة العددية 3 فقط)
-        const sumValue = totalValue + phoneticValueResult + phoneticValueForPhoneticResult + finalPhoneticValue;
-        
-        const rightWing = calculateFirstDigitSum(sumValue);
-        const leftWing = calculateFirstDigitSum(rightWing);
-        
-        const finalLettersResultText = letterResult + ' ' + phoneticLetterResult + ' ' + letterValueForPhoneticResult + ' ' + finalPhoneticLetterValue;
-
-        // عرض النتائج داخل العناصر الجديدة
-        document.getElementById('rightWingNumber').innerHTML = rightWing;
-        document.getElementById('leftWingNumber').innerHTML = leftWing;
-        document.getElementById('finalLettersText').innerHTML = finalLettersResultText;
-
-        // إظهار السطر الأفقي الجديد
-        document.getElementById('mainResultRow').style.display = 'flex';
-    }
-
-    function calculateFirstDigitSum(value) {
-        let sum = 0;
-        while (value > 0) {
-            sum += value % 10;
-            value = Math.floor(value / 10);
-        }
-        return sum;
-    }
-
-    function convertToLetters(value) {
-        const letterValues = Object.entries(lettersValues).sort((a, b) => b[1] - a[1]);
-        let result = '';
-        let remaining = value;
-        while (remaining > 0) {
-            for (const [letter, val] of letterValues) {
-                if (remaining >= val) {
-                    result = letter + ' ' + result;
-                    remaining -= val;
-                    break;
+        function convertToLetters(value) {
+            const letterValues = Object.entries(lettersValues).sort((a, b) => b[1] - a[1]);
+            let result = '';
+            let remaining = value;
+            while (remaining > 0) {
+                for (const [letter, val] of letterValues) {
+                    if (remaining >= val) {
+                        result = letter + ' ' + result;
+                        remaining -= val;
+                        break;
+                    }
                 }
             }
+            return result.trim();
         }
-        return result.trim();
-    }
 
-    function convertToPhonetic(letters) {
-        if (!letters) return '';
-        return letters.split(' ').map(letter => phoneticValues[letter] || letter).join(' ');
-    }
-
-    function calculatePhoneticValue(phonetic) {
-        let totalValue = 0;
-        for (let i = 0; i < phonetic.length; i++) {
-            const char = phonetic[i];
-            if (lettersValues[char]) totalValue += lettersValues[char];
+        function convertToPhonetic(letters) {
+            if (!letters) return '';
+            return letters.split(' ').map(letter => phoneticValues[letter] || letter).join(' ');
         }
-        return totalValue;
-    }
 
-    function reset() {
-        document.getElementById('inputText').value = '';
-        document.getElementById('mainResultRow').style.display = 'none';
-        document.getElementById('rightWingNumber').innerHTML = '';
-        document.getElementById('leftWingNumber').innerHTML = '';
-        document.getElementById('finalLettersText').innerHTML = '';
-    }
-</script>
+        function calculatePhoneticValue(phonetic) {
+            let totalValue = 0;
+            for (let i = 0; i < phonetic.length; i++) {
+                const char = phonetic[i];
+                if (lettersValues[char]) totalValue += lettersValues[char];
+            }
+            return totalValue;
+        }
 
+        function reset() {
+            document.getElementById('inputText').value = '';
+            document.getElementById('mainResultRow').style.display = 'none';
+            document.getElementById('rightWingNumber').innerHTML = '';
+            document.getElementById('leftWingNumber').innerHTML = '';
+            document.getElementById('finalLettersText').innerHTML = '';
+        }
+    </script>
 </body>
 </html>
